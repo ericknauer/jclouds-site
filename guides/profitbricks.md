@@ -1,3 +1,9 @@
+---
+layout: page
+title: "ProfitBricks: Getting Started Guide"
+permalink: /guides/profitbricks/
+---
+
 [jclouds](http://jclouds.apache.org/) is an open source multi-cloud toolkit for the Java platform that gives you the freedom to create applications that are portable across clouds while giving you full control to use cloud-specific features.
 
 This guide will show you how to programmatically use the ProfitBricks provider in jclouds to perform common management tasks available in the ProfitBricks Data Center Designer.
