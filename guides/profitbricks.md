@@ -28,7 +28,7 @@ This guide will show you how to programmatically use the ProfitBricks provider i
 
 ## Concepts
 
-The jclouds library wraps the [ProfitBricks API](https://devops.profitbricks.com/api/rest/). All operations are performed over SSL and authenticated using your ProfitBricks portal credentials. The API can be accessed within an instance running in ProfitBricks or directly over the Internet from any application that can send an HTTPS request and receive an HTTPS response.
+The jclouds library wraps the [ProfitBricks API](https://devops.profitbricks.com/api/soap/). All operations are performed over SSL and authenticated using your ProfitBricks portal credentials. The API can be accessed within an instance running in ProfitBricks or directly over the Internet from any application that can send an HTTPS request and receive an HTTPS response.
 
 
 ## Getting Started
