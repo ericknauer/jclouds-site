@@ -22,12 +22,13 @@ This guide will show you how to programmatically use the ProfitBricks provider i
 * [How to: List Servers, Volumes, and Data Centers](#how-to-list-servers-volumes-and-data-centers)
 * [Example](#example)
 * [pom.xml](#pom.xml)
+* [Support and Feedback](#support-and-feedback)
 
 --------------
 
 ## Concepts
 
-The jclouds library wraps the [ProfitBricks API](/api/). All operations are performed over SSL and authenticated using your ProfitBricks portal credentials. The API can be accessed within an instance running in ProfitBricks or directly over the Internet from any application that can send an HTTPS request and receive an HTTPS response.
+The jclouds library wraps the [ProfitBricks API](https://devops.profitbricks.com/api/rest/). All operations are performed over SSL and authenticated using your ProfitBricks portal credentials. The API can be accessed within an instance running in ProfitBricks or directly over the Internet from any application that can send an HTTPS request and receive an HTTPS response.
 
 
 ## Getting Started
@@ -98,7 +99,7 @@ The code to remove a data center is as follows. This example assumes you want to
 
 ## How to: Create a Server
 
-The server create method has a list of required parameters followed by a hash of optional parameters. The optional parameters are specified within the "options" hash and the variable names match the [SOAP API](/api/) parameters.
+The server create method has a list of required parameters followed by a hash of optional parameters. The optional parameters are specified within the "options" hash and the variable names match the [SOAP API](https://devops.profitbricks.com/api/soap/) parameters.
 
 The following example shows you how to create a new server in the virtual datacenter created above:
 
@@ -470,3 +471,6 @@ The following code illustrates how to pull these three list types:
 			</profile>
 		</profiles>
 	</project>
+
+## Support and Feedback
+Your feedback is welcome! If you have comments or questions regarding using ProfitBricks via jclouds, please reach out to us at [DevOps Central](https://devops.profitbricks.com).
