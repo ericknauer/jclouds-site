@@ -84,9 +84,11 @@ The ProfitBricks provider is currently available as part of the jclouds labs pro
 Connecting to ProfitBricks can be done by creating a compute connection with the ProfitBricks provider.
 
 ```java
+{% highlight java %}
     pbApi = ContextBuilder.newBuilder("profitbricks")
             .credentials(username, apiKey)
             .buildApi(ProfitBricksApi.class);
+{% endhighlight %}
 ```
 
 **Caution:** You will want to ensure you follow security best practices when using credentials within your code or stored in a file.
@@ -106,10 +108,12 @@ Like any cloud provider, ProfitBricks has its own set of terms in cloud computin
 Assuming that there's **atleast one** datacenter existing in your account, the provider needs only an *identity* (your ProfitBricks email), and *credentials* (password) to provision a `Node`, by using a ProfitBricks-provided ubuntu-12.04 image as a template. 
 
 ```java
+{% highlight java %}
     ComputeService compute = ContextBuilder.newBuilder( "profitbricks" )
                              .credentials( "profitbricks email", "password" )
                              .buildView( ComputeServiceContext.class )
                              .getComputeService();
+{% endhighlight %}                             
 ```
 
 This works well; however, we won't be able to use jclouds' ability to execute *scripts* on a remote node. This is because, ProfitBricks' default images require users to change passwords upon first log in.
@@ -133,7 +137,8 @@ To enable jclouds to execute script, we need to use a custom image. The easiest 
 - Go back to the DCD, and *make a snapshot* of the storage. Put a descriptive name.
 - Configure jclouds to use this *snapshot*.
 
-```java 
+```java
+{% highlight java %}
     Template template = compute.templateBuilder()
         .imageNameMatches( "<ideally-unique-snapshot-name>" )
         .options( compute.templateOptions()
@@ -143,6 +148,7 @@ To enable jclouds to execute script, we need to use a custom image. The easiest 
 	    .build();
 	
     compute.createNodesInGroup( "cluster1", 1, template );
+{% endhighlight %}
 ```
 
 > If no `locationId` is specified in the template, jclouds will look for a `DataCenter` that is of same scope as the `Image`.
@@ -161,9 +167,11 @@ ProfitBricks introduces the concept of Virtual Data Centers. These are logically
 The following code example shows you how to programmatically create a data center: 
 
 ```java
+{% highlight java %}
      DataCenter dc = api.dataCenterApi().createDataCenter(
               DataCenter.Request.CreatePayload.create("JClouds", Location.DE_FKB)
       );
+{% endhighlight %}
 ```
 
 This responds with the datacenter object once created.
@@ -175,7 +183,9 @@ You will want to exercise a bit of caution here. Removing a data center will **d
 The code to remove a data center is as follows. This example assumes you want to remove previously datacenter: 
 
 ```java
+{% highlight java %}
     api.dataCenterApi().deleteDataCenter(dc.id());
+{% endhighlight %}
 ```
 
 ## How to: Create a Server
@@ -185,20 +195,24 @@ The server create method has a list of required parameters followed by a hash of
 The following example shows you how to create a new server in the virtual datacenter created above:
 
 ```java
+{% highlight java %}
 	String serverId = api.serverApi().createServer(Server.Request.creatingBuilder()
 			.dataCenterId(dc.id())
 			.name("jclouds-node")
 			.cores(1)
 			.ram(1024)
 			.build());
+{% endhighlight %}
 ```
 
 The server can take time to provision. The "waitUntilAvailable" server object method will wait until the server state is available before continuing. This is useful when chaining requests together that are dependent on one another.
 
 ```java
+{% highlight java %}
     waitUntilAvailable = Predicates2.retry(
         new ProvisioningStatusPollingPredicate(api, ProvisioningStatusAware.SERVER, ProvisioningState.AVAILABLE),
         2l * 60l, 2l, TimeUnit.SECONDS);
+{% endhighlight %}
 ```
 
 ## How to: List Available Disk and ISO Images
@@ -206,7 +220,9 @@ The server can take time to provision. The "waitUntilAvailable" server object me
 A list of disk and ISO images are available from ProfitBricks for immediate use. These can be easily viewed and selected. The following shows you how to get a list of images. This list represents both CDROM images and HDD images.
 
 ```java
+{% highlight java %}
     List<Image> images = api.imageApi().getAllImages();
+{% endhighlight %}
 ```
 
 ## How to: Create a Storage Volume
@@ -214,12 +230,14 @@ A list of disk and ISO images are available from ProfitBricks for immediate use.
 ProfitBricks allows for the creation of multiple storage volumes that can be attached and detached as needed. It is useful to attach an image when creating a storage volume. The storage size is in gigabytes.
 
 ```java
+{% highlight java %}
     String storageId = api.storageApi().createStorage(
         Storage.Request.creatingBuilder()
         .dataCenterId(dc.id())
         .name("hdd-1")
         .size(2f)
         .build());
+{% endhighlight %}
 ```
 
 ## How to: Update Cores, Memory, and Disk
@@ -231,6 +249,7 @@ ProfitBricks allows users to dynamically update cores, memory, and disk independ
 The following code illustrates how you can update cores and memory: 
 
 ```java
+{% highlight java %}
 	api.serverApi().updateServer(
 			Server.Request.updatingBuilder()
 			.id(serverId)
@@ -238,22 +257,27 @@ The following code illustrates how you can update cores and memory:
 			.cores(2)
 			.ram(2 * 1024)
 			.build());
+{% endhighlight %}
 ```
 
 The server object may need to be refreshed in order to show the new configuration.
 
 ```java
+{% highlight java %}
     Server server = api.serverApi().getServer(createdServerId);
+{% endhighlight %}
 ```
 
  This is how you would update the storage volume size:
 
 ```java
+{% highlight java %}
 	api.storageApi().updateStorage(
 			Storage.Request.updatingBuilder()
 			.id(storageId)
 			.name("hdd-2")
 			.build());
+{% endhighlight %}
 ```
 
 ## How to: Attach and Detach a Storage Volume
@@ -263,7 +287,9 @@ ProfitBricks allows for the creation of multiple storage volumes. You can detach
 The following illustrates how you would attach and detach a volume from a server:
 
 ```java
+{% highlight java %}
     String requestId = api.storageApi().disconnectStorageFromServer(storageId, serverId);
+{% endhighlight %}
 ```
 
 ## How to: List Servers, Volumes, and Data Centers
@@ -273,16 +299,19 @@ jclouds provides standard functions for retrieving a list of volumes, servers, a
 The following code illustrates how to pull these three list types: 
 
 ```java
+{% highlight java %}
     List<Storage> storages = api.storageApi().getAllStorages();
 
     List<Server> servers = api.serverApi().getAllServers();
  
     List<DataCenter> dataCenters = api.dataCenterApi().getAllDataCenters();
+{% endhighlight %}
 ```
 
 ## Example:
 
 ```java
+{% highlight java %}
 	package com.profitbricks.example;
 
 	import com.google.common.base.Predicate;
@@ -407,6 +436,7 @@ The following code illustrates how to pull these three list types:
 			api.dataCenterApi().deleteDataCenter(dc.id());
 		}
 	}
+{% endhighlight %}
 ```
 
 ## Support and Feedback
