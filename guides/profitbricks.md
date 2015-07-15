@@ -124,7 +124,7 @@ To enable jclouds to execute script, we need to use a custom image. The easiest 
 -  Provision a server + storage, and connect it to the internet. Upon success, you will receive an email containing the credentials needed to login to your server.
 -  Login to your server, and change the password, as requested.
 
-
+```
     ~ ssh root@<remote-ip>
     ...
     Changing password for root.
@@ -132,7 +132,7 @@ To enable jclouds to execute script, we need to use a custom image. The easiest 
     Enter new UNIX password: 
     Retype new UNIX password: 
     ~ root@ubuntu:~# exit
-
+```
 
 - Go back to the DCD, and *make a snapshot* of the storage. Put a descriptive name.
 - Configure jclouds to use this *snapshot*.
